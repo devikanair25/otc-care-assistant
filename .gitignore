@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.env
+
+# Generated data: rebuilt by `otc-ingest` / `otc-build-index` (locally or in CI)
+mcp_server/data/raw_labels.jsonl
+mcp_server/data/index/

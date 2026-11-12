@@ -1,0 +1,9 @@
+# Files Cloud Run source deploys should NOT upload. data/index/ must be included.
+.gcloudignore
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+tests/
+data/raw_labels.jsonl

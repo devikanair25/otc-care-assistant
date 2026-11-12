@@ -1,0 +1,40 @@
+# Common OTC active ingredients to pull from openFDA. One per line; '#' starts a comment.
+# Pain / fever
+acetaminophen
+ibuprofen
+naproxen
+aspirin
+# Allergy
+loratadine
+cetirizine
+fexofenadine
+diphenhydramine
+chlorpheniramine
+# Cough / cold
+dextromethorphan
+guaifenesin
+phenylephrine
+pseudoephedrine
+oxymetazoline
+# Stomach
+famotidine
+omeprazole
+calcium carbonate
+bismuth subsalicylate
+loperamide
+simethicone
+docusate
+polyethylene glycol 3350
+# Sleep
+doxylamine
+# Skin
+hydrocortisone
+bacitracin
+clotrimazole
+terbinafine
+benzocaine
+# Eye
+ketotifen
+# Motion sickness
+meclizine
+dimenhydrinate

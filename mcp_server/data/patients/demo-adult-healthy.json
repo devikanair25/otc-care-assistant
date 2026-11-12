@@ -1,0 +1,31 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "meta": {
+    "tag": [
+      {
+        "code": "SYNTHETIC",
+        "display": "Synthetic demo data - not a real person"
+      }
+    ]
+  },
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:demo-adult-healthy",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "demo-adult-healthy",
+        "name": [
+          {
+            "given": [
+              "Maya"
+            ],
+            "family": "Rivera"
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1992-03-14"
+      }
+    }
+  ]
+}

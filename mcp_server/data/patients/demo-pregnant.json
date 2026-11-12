@@ -1,0 +1,78 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "meta": {
+    "tag": [
+      {
+        "code": "SYNTHETIC",
+        "display": "Synthetic demo data - not a real person"
+      }
+    ]
+  },
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:demo-pregnant",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "demo-pregnant",
+        "name": [
+          {
+            "given": [
+              "Priya"
+            ],
+            "family": "Shah"
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1997-01-09"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationStatement",
+        "id": "demo-pregnant-med0",
+        "status": "active",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "",
+              "display": "Prenatal Vitamins Oral Tablet"
+            }
+          ],
+          "text": "Prenatal Vitamins Oral Tablet"
+        },
+        "subject": {
+          "reference": "Patient/demo-pregnant"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "demo-pregnant-cond0",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "72892002",
+              "display": "Normal pregnancy"
+            }
+          ],
+          "text": "Normal pregnancy"
+        },
+        "subject": {
+          "reference": "Patient/demo-pregnant"
+        }
+      }
+    }
+  ]
+}

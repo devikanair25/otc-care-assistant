@@ -1,0 +1,52 @@
+name: mcp-server
+
+on:
+  push:
+    branches: [main]
+    paths: ["mcp_server/**", ".github/workflows/mcp-server-ci.yml"]
+  pull_request:
+    paths: ["mcp_server/**"]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: mcp_server } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: pytest -q
+
+  # Builds the real index from openFDA and deploys to Cloud Run.
+  # Runs on main only after you set the repository variables and secrets listed in README.
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' && vars.GCP_PROJECT_ID != ''
+    runs-on: ubuntu-latest
+    permissions: { contents: read, id-token: write }   # id-token for Workload Identity Federation
+    defaults: { run: { working-directory: mcp_server } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -e ".[embed]"
+      - name: Ingest OTC labels from openFDA
+        run: otc-ingest --per-ingredient 5
+        env: { OPENFDA_API_KEY: "${{ secrets.OPENFDA_API_KEY }}" }
+      - name: Build FAISS index
+        run: otc-build-index --embedder fastembed
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SA }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Deploy to Cloud Run (private)
+        run: |
+          gcloud run deploy otc-mcp \
+            --project "${{ vars.GCP_PROJECT_ID }}" --region "${{ vars.GCP_REGION }}" \
+            --source . --no-allow-unauthenticated \
+            --min-instances 0 --max-instances 2 --memory 1Gi \
+            --update-env-vars "MCP_ALLOWED_HOSTS=${{ vars.MCP_ALLOWED_HOSTS }}"
